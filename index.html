@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>اختر كوكبك</title>
+<title>عمرك في الكون</title>
 
 <style>
 html, body {
@@ -12,235 +12,185 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
+/* ====== انتقال الصفحة ====== */
 body {
-  background: url("black.jpg") center/cover no-repeat;
-  overflow: hidden;
-  color: white;
-}
-
-.space {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-/* ===== الكواكب ===== */
-.planet {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.35s ease;
-
-  box-shadow:
-    inset -18px -18px 30px rgba(0,0,0,0.45),
-    inset 12px 12px 22px rgba(255,255,255,0.25),
-    0 0 35px rgba(255,255,255,0.35);
-}
-
-.planet:hover {
-  transform: scale(1.18);
-  box-shadow: 0 0 65px rgba(255,255,255,0.85);
-}
-
-.planet.active {
-  transform: scale(1.55);
-  z-index: 10;
-}
-
-.space.dim .planet:not(.active) {
-  transform: scale(0.65);
-  opacity: 0.25;
-}
-
-/* اسم الكوكب */
-.planet span {
-  position: absolute;
-  top: 125%;
-  width: 100%;
-  text-align: center;
-  font-size: 15px;
-  opacity: 0.9;
-}
-
-/* ===== تفاصيل الكواكب ===== */
-.mercury { background: radial-gradient(circle at 30% 30%, #ddd, #777 60%, #444); }
-.venus   { background: radial-gradient(circle at 30% 30%, #ffe6b8, #c47a2c 65%, #8a4b1a); }
-.earth   {
-  background:
-    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.45), transparent 35%),
-    radial-gradient(circle at 30% 30%, #6fd3ff, #0b3d91 60%, #06224f);
-}
-.mars    { background: radial-gradient(circle at 30% 30%, #ffb08a, #b03a00 60%, #6b1f00); }
-
-.jupiter {
-  background: linear-gradient(
-    to bottom,
-    #f7d7a8 0%,
-    #d39a6a 18%,
-    #f7d7a8 36%,
-    #b87333 54%,
-    #f7d7a8 72%,
-    #c98b55 90%
-  );
-}
-
-.saturn {
-  background: radial-gradient(circle at 30% 30%, #fff3c8, #c9a24d 65%, #8a6b2f);
-}
-
-/* حلقات زحل */
-.saturn::before {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 55%;
-  top: 50%;
-  left: -50%;
-  transform: translateY(-50%) rotate(-18deg);
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255,255,255,0.75),
-    rgba(220,190,140,0.45),
-    rgba(180,140,90,0.25),
-    transparent 72%
-  );
-}
-
-.uranus  { background: radial-gradient(circle at 30% 30%, #d7ffff, #3aa6b8 65%, #1f6b78); }
-.neptune { background: radial-gradient(circle at 30% 30%, #9aa7ff, #1a2c80 65%, #0d163f); }
-
-/* ===== الترتيب ===== */
-/* ===== الترتيب المعدل بدقة ===== */
-.mercury { top: 8%;  left: 12%; }
-.saturn  { top: 8%;  left: 55%; }
-
-.venus   { top: 18%; left: 80%; }
-
-/* أورانوس: يسار شوي */
-.uranus  { top: 45%; left: 74%; }
-
-/* نبتون: مرفوع فوق */
-.neptune { top: 65%; left: 80%; }
-
-/* المشتري (ثابت) */
-.jupiter { top: 38%; left: 42%; }
-
-/* الأرض (ثابت) */
-.earth   { top: 55%; left: 10%; }
-
-/* المريخ: فوق يسار المشتري وتحته بشوي */
-.mars {
-  top: 48%;
-  left: 34%;
-}
-
-
-/* ===== صندوق المعلومات ===== */
-.info-box {
-  position: absolute;
-  bottom: 6%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 540px;
-  padding: 30px;
-  border-radius: 24px;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(8px);
-  text-align: center;
   opacity: 0;
-  transition: opacity 0.4s ease, top 0.4s ease, bottom 0.4s ease;
-  z-index: 20;
+  transition: opacity 0.6s ease;
+
+  /* خلفية المجرة */
+  background-image: url("milkyway.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
 }
 
-.info-box.show {
+body.fade-in {
   opacity: 1;
 }
 
-/* 🔴 إذا كان فوق (المريخ) */
-.info-box.above {
-  bottom: auto;
-  top: 6%;
+body.fade-out {
+  opacity: 0;
 }
 
-/* ===== زر النهاية ===== */
-.next-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  padding: 16px 36px;
-  font-size: 17px;
-  font-weight: bold;
+/* تعتيم خفيف */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* المحتوى */
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: white;
-  background: linear-gradient(135deg, #9b59ff, #4fd1c5);
+  text-align: center;
+  padding-top: 180px;
+}
+
+/* العنوان */
+h1 {
+  font-size: 100px;
+  font-weight: bold;
+  margin-bottom: 70px;
+  text-shadow: 0 0 30px rgba(255,255,255,0.4);
+  animation: titleEnter 2s ease forwards;
+}
+
+/* النص */
+p {
+  font-size: 22px;
+  opacity: 0.9;
+  margin-top: -40px;
+  margin-bottom: 60px;
+  animation: subtitleEnter 2.5s ease forwards;
+  animation-delay: 0.6s;
+}
+
+/* زر البداية */
+.start-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #b87333, #ffb37a);
+  color: #2b1608;
   border: none;
-  border-radius: 45px;
+  padding: 22px 65px;
+  font-size: 22px;
+  font-weight: bold;
+  border-radius: 50px;
   cursor: pointer;
+
+  box-shadow:
+    0 0 25px rgba(184,115,51,0.7),
+    0 0 60px rgba(255,179,122,0.6);
+
+  animation:
+    glowPulse 3s infinite,
+    floatBtn 5s ease-in-out infinite;
+
+  transition: all 0.4s ease;
+}
+
+/* لمعان متحرك */
+.start-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  animation: shine 4s infinite;
+}
+
+.start-btn:hover {
+  transform: scale(1.15) translateY(-6px);
+}
+
+.start-btn:active {
+  transform: scale(1.05);
+}
+
+/* الحركات */
+@keyframes titleEnter {
+  from { opacity: 0; transform: translateY(-50px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes subtitleEnter {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 0.9; transform: translateY(0); }
+}
+
+@keyframes floatBtn {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow:
+      0 0 20px rgba(184,115,51,0.6),
+      0 0 50px rgba(255,179,122,0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(255,179,122,0.9),
+      0 0 90px rgba(184,115,51,0.9);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(184,115,51,0.6),
+      0 0 50px rgba(255,179,122,0.5);
+  }
+}
+
+@keyframes shine {
+  0% { left: -120%; }
+  60% { left: 120%; }
+  100% { left: 120%; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="space" id="space" onclick="resetView()">
+<div class="overlay"></div>
 
-  <div class="planet mercury" onclick="selectPlanet(event,'عطارد',0.24)"><span>عطارد</span></div>
-  <div class="planet saturn"  onclick="selectPlanet(event,'زحل',29.45)"><span>زحل</span></div>
-  <div class="planet venus"   onclick="selectPlanet(event,'الزهرة',0.62)"><span>الزهرة</span></div>
+<div class="content">
+  <h1>عمرك في الكون</h1>
+  <p>الزمن ليس واحدًا في كل مكان</p>
 
-  <div class="planet jupiter" onclick="selectPlanet(event,'المشتري',11.86)"><span>المشتري</span></div>
-
-  <div class="planet earth"   onclick="selectPlanet(event,'الأرض',1)"><span>الأرض</span></div>
-  <div class="planet uranus"  onclick="selectPlanet(event,'أورانوس',84)"><span>أورانوس</span></div>
-
-  <div class="planet mars"    onclick="selectPlanet(event,'المريخ',1.88)"><span>المريخ</span></div>
-  <div class="planet neptune" onclick="selectPlanet(event,'نبتون',164.8)"><span>نبتون</span></div>
-
-  <div class="info-box" id="infoBox"></div>
+  <button class="start-btn" onclick="goToScan()">
+    ابدأ رحلتك
+  </button>
 </div>
 
-<button class="next-btn" onclick="goToEnd()">اكمل الرحلة ✨</button>
-
 <script>
-const earthAge = Number(localStorage.getItem("earthAge"));
-if (!earthAge) location.href = "result.html";
+/* Fade In عند فتح الصفحة */
+window.onload = () => {
+  document.body.classList.add("fade-in");
+};
 
-function selectPlanet(e, name, yearLength) {
-  e.stopPropagation();
+/* Fade Out قبل الانتقال */
+function goToScan() {
+  document.body.classList.remove("fade-in");
+  document.body.classList.add("fade-out");
 
-  const space = document.getElementById("space");
-  const infoBox = document.getElementById("infoBox");
-
-  space.classList.add("dim");
-  document.querySelectorAll(".planet").forEach(p => p.classList.remove("active"));
-  e.currentTarget.classList.add("active");
-
-  const age = (earthAge / yearLength).toFixed(1);
-
-  infoBox.innerHTML = `
-    <h2>${name}</h2>
-    <p>عمرك هنا: <strong>${age} سنة</strong></p>
-    <p>السبب: طول السنة على ${name}</p>
-    <p>المعادلة: ${earthAge} ÷ ${yearLength}</p>
-  `;
-
-  infoBox.classList.remove("above");
-  if (name === "المريخ") infoBox.classList.add("above");
-
-  infoBox.classList.add("show");
-}
-
-function resetView() {
-  document.getElementById("space").classList.remove("dim");
-  const infoBox = document.getElementById("infoBox");
-  infoBox.classList.remove("show", "above");
-  document.querySelectorAll(".planet").forEach(p => p.classList.remove("active"));
-}
-
-function goToEnd() {
-  window.location.href = "end.html";
+  setTimeout(() => {
+    window.location.href = "scan.html";
+  }, 600);
 }
 </script>
 
