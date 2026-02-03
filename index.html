@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>عمرك في الكون</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* ====== انتقال الصفحة ====== */
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+
+  /* خلفية المجرة */
+  background-image: url("milkyway.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+
+/* تعتيم خفيف */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* المحتوى */
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding-top: 180px;
+}
+
+/* العنوان */
+h1 {
+  font-size: 100px;
+  font-weight: bold;
+  margin-bottom: 70px;
+  text-shadow: 0 0 30px rgba(255,255,255,0.4);
+  animation: titleEnter 2s ease forwards;
+}
+
+/* النص */
+p {
+  font-size: 22px;
+  opacity: 0.9;
+  margin-top: -40px;
+  margin-bottom: 60px;
+  animation: subtitleEnter 2.5s ease forwards;
+  animation-delay: 0.6s;
+}
+
+/* زر البداية */
+.start-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #b87333, #ffb37a);
+  color: #2b1608;
+  border: none;
+  padding: 22px 65px;
+  font-size: 22px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 25px rgba(184,115,51,0.7),
+    0 0 60px rgba(255,179,122,0.6);
+
+  animation:
+    glowPulse 3s infinite,
+    floatBtn 5s ease-in-out infinite;
+
+  transition: all 0.4s ease;
+}
+
+/* لمعان متحرك */
+.start-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  animation: shine 4s infinite;
+}
+
+.start-btn:hover {
+  transform: scale(1.15) translateY(-6px);
+}
+
+.start-btn:active {
+  transform: scale(1.05);
+}
+
+/* الحركات */
+@keyframes titleEnter {
+  from { opacity: 0; transform: translateY(-50px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes subtitleEnter {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 0.9; transform: translateY(0); }
+}
+
+@keyframes floatBtn {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow:
+      0 0 20px rgba(184,115,51,0.6),
+      0 0 50px rgba(255,179,122,0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(255,179,122,0.9),
+      0 0 90px rgba(184,115,51,0.9);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(184,115,51,0.6),
+      0 0 50px rgba(255,179,122,0.5);
+  }
+}
+
+@keyframes shine {
+  0% { left: -120%; }
+  60% { left: 120%; }
+  100% { left: 120%; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="content">
+  <h1>عمرك في الكون</h1>
+  <p>الزمن ليس واحدًا في كل مكان</p>
+
+  <button class="start-btn" onclick="goToScan()">
+    ابدأ رحلتك
+  </button>
+</div>
+
+<script>
+/* Fade In عند فتح الصفحة */
+window.onload = () => {
+  document.body.classList.add("fade-in");
+};
+
+/* Fade Out قبل الانتقال */
+function goToScan() {
+  document.body.classList.remove("fade-in");
+  document.body.classList.add("fade-out");
+
+  setTimeout(() => {
+    window.location.href = "scan.html";
+  }, 600);
+}
+</script>
+
+</body>
+</html>

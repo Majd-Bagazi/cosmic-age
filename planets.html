@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>اختر كوكبك</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: url("black.jpg") center/cover no-repeat;
+  overflow: hidden;
+  color: white;
+}
+
+.space {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== الكواكب ===== */
+.planet {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.35s ease;
+
+  box-shadow:
+    inset -18px -18px 30px rgba(0,0,0,0.45),
+    inset 12px 12px 22px rgba(255,255,255,0.25),
+    0 0 35px rgba(255,255,255,0.35);
+}
+
+.planet:hover {
+  transform: scale(1.18);
+  box-shadow: 0 0 65px rgba(255,255,255,0.85);
+}
+
+.planet.active {
+  transform: scale(1.55);
+  z-index: 10;
+}
+
+.space.dim .planet:not(.active) {
+  transform: scale(0.65);
+  opacity: 0.25;
+}
+
+/* اسم الكوكب */
+.planet span {
+  position: absolute;
+  top: 125%;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* ===== تفاصيل الكواكب ===== */
+.mercury { background: radial-gradient(circle at 30% 30%, #ddd, #777 60%, #444); }
+.venus   { background: radial-gradient(circle at 30% 30%, #ffe6b8, #c47a2c 65%, #8a4b1a); }
+.earth   {
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.45), transparent 35%),
+    radial-gradient(circle at 30% 30%, #6fd3ff, #0b3d91 60%, #06224f);
+}
+.mars    { background: radial-gradient(circle at 30% 30%, #ffb08a, #b03a00 60%, #6b1f00); }
+
+.jupiter {
+  background: linear-gradient(
+    to bottom,
+    #f7d7a8 0%,
+    #d39a6a 18%,
+    #f7d7a8 36%,
+    #b87333 54%,
+    #f7d7a8 72%,
+    #c98b55 90%
+  );
+}
+
+.saturn {
+  background: radial-gradient(circle at 30% 30%, #fff3c8, #c9a24d 65%, #8a6b2f);
+}
+
+/* حلقات زحل */
+.saturn::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 55%;
+  top: 50%;
+  left: -50%;
+  transform: translateY(-50%) rotate(-18deg);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255,255,255,0.75),
+    rgba(220,190,140,0.45),
+    rgba(180,140,90,0.25),
+    transparent 72%
+  );
+}
+
+.uranus  { background: radial-gradient(circle at 30% 30%, #d7ffff, #3aa6b8 65%, #1f6b78); }
+.neptune { background: radial-gradient(circle at 30% 30%, #9aa7ff, #1a2c80 65%, #0d163f); }
+
+/* ===== الترتيب ===== */
+.mercury { top: 8%;  left: 12%; }
+.saturn  { top: 8%;  left: 55%; }
+
+.venus   { top: 18%; left: 80%; }
+.uranus  { top: 45%; left: 80%; }
+.neptune { top: 72%; left: 80%; }
+
+.jupiter { top: 38%; left: 42%; }
+
+.earth  { top: 55%; left: 10%; }
+.mars   { top: 72%; left: 42%; }
+
+/* ===== صندوق المعلومات ===== */
+.info-box {
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 540px;
+  padding: 30px;
+  border-radius: 24px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s ease, top 0.4s ease, bottom 0.4s ease;
+  z-index: 20;
+}
+
+.info-box.show {
+  opacity: 1;
+}
+
+/* 🔴 إذا كان فوق (المريخ) */
+.info-box.above {
+  bottom: auto;
+  top: 6%;
+}
+
+/* ===== زر النهاية ===== */
+.next-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  padding: 16px 36px;
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #9b59ff, #4fd1c5);
+  border: none;
+  border-radius: 45px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="space" id="space" onclick="resetView()">
+
+  <div class="planet mercury" onclick="selectPlanet(event,'عطارد',0.24)"><span>عطارد</span></div>
+  <div class="planet saturn"  onclick="selectPlanet(event,'زحل',29.45)"><span>زحل</span></div>
+  <div class="planet venus"   onclick="selectPlanet(event,'الزهرة',0.62)"><span>الزهرة</span></div>
+
+  <div class="planet jupiter" onclick="selectPlanet(event,'المشتري',11.86)"><span>المشتري</span></div>
+
+  <div class="planet earth"   onclick="selectPlanet(event,'الأرض',1)"><span>الأرض</span></div>
+  <div class="planet uranus"  onclick="selectPlanet(event,'أورانوس',84)"><span>أورانوس</span></div>
+
+  <div class="planet mars"    onclick="selectPlanet(event,'المريخ',1.88)"><span>المريخ</span></div>
+  <div class="planet neptune" onclick="selectPlanet(event,'نبتون',164.8)"><span>نبتون</span></div>
+
+  <div class="info-box" id="infoBox"></div>
+</div>
+
+<button class="next-btn" onclick="goToEnd()">اكمل الرحلة ✨</button>
+
+<script>
+const earthAge = Number(localStorage.getItem("earthAge"));
+if (!earthAge) location.href = "result.html";
+
+function selectPlanet(e, name, yearLength) {
+  e.stopPropagation();
+
+  const space = document.getElementById("space");
+  const infoBox = document.getElementById("infoBox");
+
+  space.classList.add("dim");
+  document.querySelectorAll(".planet").forEach(p => p.classList.remove("active"));
+  e.currentTarget.classList.add("active");
+
+  const age = (earthAge / yearLength).toFixed(1);
+
+  infoBox.innerHTML = `
+    <h2>${name}</h2>
+    <p>عمرك هنا: <strong>${age} سنة</strong></p>
+    <p>السبب: طول السنة على ${name}</p>
+    <p>المعادلة: ${earthAge} ÷ ${yearLength}</p>
+  `;
+
+  infoBox.classList.remove("above");
+  if (name === "المريخ") infoBox.classList.add("above");
+
+  infoBox.classList.add("show");
+}
+
+function resetView() {
+  document.getElementById("space").classList.remove("dim");
+  const infoBox = document.getElementById("infoBox");
+  infoBox.classList.remove("show", "above");
+  document.querySelectorAll(".planet").forEach(p => p.classList.remove("active"));
+}
+
+function goToEnd() {
+  window.location.href = "end.html";
+}
+</script>
+
+</body>
+</html>

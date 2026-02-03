@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>رسالة كونية</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== انتقال ناعم ===== */
+body {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url("gloury.jpg"); /* 👈 الخلفية */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+/* تعتيم خفيف */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+/* المحتوى */
+.final-box {
+  position: relative;
+  z-index: 2;
+
+  text-align: center;
+  color: white;
+
+  padding: 70px 90px;
+  border-radius: 35px;
+
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.3);
+
+  box-shadow:
+    0 0 50px rgba(200,200,255,0.35),
+    0 0 140px rgba(160,160,255,0.25);
+
+  animation: boxEnter 2s ease forwards;
+}
+
+/* الجملة */
+.final-quote {
+  font-size: 36px;
+  line-height: 1.8;
+  font-weight: bold;
+
+  margin-bottom: 50px;
+
+  text-shadow:
+    0 0 30px rgba(255,255,255,0.6);
+}
+
+/* زر الرجوع */
+.home-btn {
+  padding: 18px 60px;
+  font-size: 20px;
+  font-weight: bold;
+
+  color: #0c0c2d;
+  background: linear-gradient(135deg, #d6e4ff, #ffffff);
+
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 30px rgba(200,220,255,0.7),
+    0 0 80px rgba(160,190,255,0.6);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-btn:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 45px rgba(220,235,255,0.9),
+    0 0 110px rgba(180,210,255,0.9);
+}
+
+.home-btn:active {
+  transform: scale(1.05);
+}
+
+/* حركة الدخول */
+@keyframes boxEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="final-box">
+  <div class="final-quote">
+    الزمن يختلف…<br>
+    لكن أثرك ثابت ✨
+  </div>
+
+  <button class="home-btn" onclick="goHome()">
+    العودة للبداية 🌌
+  </button>
+</div>
+
+<script>
+/* Fade In */
+window.onload = () => {
+  document.body.classList.add("fade-in");
+};
+
+function goHome() {
+  document.body.classList.remove("fade-in");
+  document.body.style.opacity = "0";
+
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 800);
+}
+</script>
+
+</body>
+</html>

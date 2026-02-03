@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>الكاميرا</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* ====== انتقال الصفحة ====== */
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url("sky.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+
+/* العنوان */
+.page-title {
+  color: white;
+  font-size: 64px;
+  font-weight: bold;
+  margin-top: -40px;
+  margin-bottom: 30px;
+
+  text-shadow:
+    0 0 25px rgba(255,255,255,0.6),
+    0 0 60px rgba(0,255,200,0.4);
+
+  animation: titleFade 1.6s ease forwards;
+}
+
+/* إطار الكاميرا */
+.camera-wrapper {
+  width: 90vw;
+  max-width: 1100px;
+  height: 60vh;
+  max-height: 600px;
+
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+
+  background: #000;
+  box-shadow:
+    0 0 40px rgba(0,255,200,0.45),
+    0 0 120px rgba(0,255,200,0.25);
+
+  animation: cameraFade 1.8s ease forwards;
+}
+
+/* فيديو الكاميرا */
+.camera-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+/* طبقة خفيفة */
+.camera-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.12);
+  pointer-events: none;
+}
+
+/* زر الانتقال */
+.next-btn {
+  margin-top: 35px;
+  padding: 18px 55px;
+  font-size: 20px;
+  font-weight: bold;
+
+  color: #003b32;
+  background: linear-gradient(135deg, #00ffd5, #1cb5e0);
+  border: none;
+  border-radius: 45px;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 25px rgba(0,255,213,0.7),
+    0 0 70px rgba(28,181,224,0.6);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.next-btn:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 40px rgba(0,255,213,0.9),
+    0 0 90px rgba(28,181,224,0.9);
+}
+
+.next-btn:active {
+  transform: scale(1.05);
+}
+
+/* حركات */
+@keyframes titleFade {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cameraFade {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-title">الكون يراك</div>
+
+<div class="camera-wrapper">
+  <video id="camera" autoplay playsinline></video>
+  <div class="camera-overlay"></div>
+</div>
+
+<button class="next-btn" onclick="goToResult()">
+  احسب عمري في الكون
+</button>
+
+<script>
+/* Fade In عند الدخول */
+window.onload = () => {
+  document.body.classList.add("fade-in");
+};
+
+/* انتقال للصفحة الثالثة */
+function goToResult() {
+  document.body.classList.remove("fade-in");
+  document.body.classList.add("fade-out");
+
+  setTimeout(() => {
+    window.location.href = "result.html";
+  }, 600);
+}
+
+const video = document.getElementById("camera");
+
+navigator.mediaDevices.getUserMedia({
+  video: { facingMode: "user" }
+})
+.then(stream => {
+  video.srcObject = stream;
+})
+.catch(err => {
+  alert("تعذر تشغيل الكاميرا");
+  console.error(err);
+});
+</script>
+
+</body>
+</html>

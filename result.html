@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>نتيجتك الكونية</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* ====== انتقال الصفحة ====== */
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url("pink.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+
+/* تعتيم خفيف */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
+/* المحتوى */
+.result-box {
+  position: relative;
+  z-index: 2;
+
+  text-align: center;
+  color: white;
+  padding: 60px 80px;
+  border-radius: 30px;
+
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.25);
+
+  box-shadow:
+    0 0 40px rgba(255,180,220,0.35),
+    0 0 120px rgba(255,120,200,0.25);
+
+  animation: boxEnter 1.6s ease forwards;
+}
+
+/* العنوان */
+.result-title {
+  font-size: 64px;
+  font-weight: bold;
+  margin-bottom: 35px;
+  text-shadow: 0 0 25px rgba(255,255,255,0.6);
+}
+
+/* العمر */
+.result-age {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #ffd6f0;
+}
+
+/* الجملة */
+.result-quote {
+  font-size: 22px;
+  line-height: 1.8;
+  opacity: 0.95;
+  margin-bottom: 35px;
+}
+
+/* زر الكواكب */
+.planets-btn {
+  padding: 18px 55px;
+  font-size: 20px;
+  font-weight: bold;
+
+  color: #2b0030;
+  background: linear-gradient(135deg, #ff8bd4, #ffd1ef);
+  border: none;
+  border-radius: 45px;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 25px rgba(255,140,212,0.7),
+    0 0 70px rgba(255,180,230,0.6);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.planets-btn:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 40px rgba(255,160,225,0.9),
+    0 0 90px rgba(255,200,240,0.9);
+}
+
+.planets-btn:active {
+  transform: scale(1.05);
+}
+
+/* حركة الدخول */
+@keyframes boxEnter {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="result-box">
+  <div class="result-title">نتيجتك الكونية</div>
+
+  <div class="result-age" id="ageResult"></div>
+
+  <div class="result-quote" id="quoteResult"></div>
+
+  <button class="planets-btn" onclick="goToPlanets()">
+    اعرف عمرك على الكواكب الأخرى 🪐
+  </button>
+</div>
+
+<script>
+window.onload = () => {
+  document.body.classList.add("fade-in");
+  generateResult();
+};
+
+function generateResult() {
+  const age = Math.floor(Math.random() * (35 - 18 + 1)) + 18;
+
+  // ✅ حفظ العمر الحقيقي لاستخدامه في صفحة الكواكب
+  localStorage.setItem("earthAge", age);
+
+  const messages = {
+    young: [
+      "هذا العمر مليء بالبدايات الجميلة،<br>استكشف بلا خوف ✨",
+      "طاقتك الآن في أوجها،<br>والكون يفتح لك طرقًا جديدة.",
+      "ما زلت تبني نفسك،<br>وكل خطوة لها معناها."
+    ],
+    mid: [
+      "أنت في مرحلة وعي ونضج،<br>تعرف ماذا تريد أكثر من أي وقت مضى.",
+      "خبرتك تتكوّن،<br>وأثرك في العالم بدأ يظهر.",
+      "توازن جميل بين الحلم والواقع ✨"
+    ],
+    mature: [
+      "هذا عمر العمق والفهم،<br>حيث تصبح اختياراتك أكثر وضوحًا.",
+      "ما بنيته سابقًا يبدأ بالإثمار الآن.",
+      "نضجك قوة هادئة تشبه الكون."
+    ]
+  };
+
+  let quote = "";
+  if (age <= 22) {
+    quote = messages.young[Math.floor(Math.random() * messages.young.length)];
+  } else if (age <= 28) {
+    quote = messages.mid[Math.floor(Math.random() * messages.mid.length)];
+  } else {
+    quote = messages.mature[Math.floor(Math.random() * messages.mature.length)];
+  }
+
+  document.getElementById("ageResult").innerHTML =
+    `عمرك التقديري: ${age} سنة`;
+
+  document.getElementById("quoteResult").innerHTML = quote;
+}
+
+function goToPlanets() {
+  document.body.classList.remove("fade-in");
+  document.body.classList.add("fade-out");
+
+  setTimeout(() => {
+    window.location.href = "planets.html";
+  }, 600);
+}
+</script>
+
+</body>
+</html>
