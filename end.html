@@ -21,7 +21,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  background-image: url("gloury.jpg"); /* 👈 الخلفية */
+  background-image: url("gloury.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -40,7 +40,7 @@ body.fade-in {
   background: rgba(0,0,0,0.45);
 }
 
-/* المحتوى */
+/* ===== الصندوق النهائي ===== */
 .final-box {
   position: relative;
   z-index: 2;
@@ -48,7 +48,7 @@ body.fade-in {
   text-align: center;
   color: white;
 
-  padding: 70px 90px;
+  padding: 4px 20px  ; /* 👈 كبر من تحت */
   border-radius: 35px;
 
   backdrop-filter: blur(6px);
@@ -63,12 +63,11 @@ body.fade-in {
 
 /* الجملة */
 .final-quote {
-  font-size: 36px;
+  font-size: 50px;
   line-height: 1.8;
   font-weight: bold;
-
-  margin-bottom: 50px;
-
+  margin-bottom: 80px;
+  margin-top: 120px;
   text-shadow:
     0 0 30px rgba(255,255,255,0.6);
 }
@@ -76,8 +75,9 @@ body.fade-in {
 /* زر الرجوع */
 .home-btn {
   padding: 18px 60px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
+  
 
   color: #0c0c2d;
   background: linear-gradient(135deg, #d6e4ff, #ffffff);
@@ -91,7 +91,11 @@ body.fade-in {
     0 0 80px rgba(160,190,255,0.6);
 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  display: block;
+  margin: 20px auto 0; /* 👈 هذا اللي يخليه يبان الفرق */
 }
+
 
 .home-btn:hover {
   transform: scale(1.1);
@@ -102,6 +106,14 @@ body.fade-in {
 
 .home-btn:active {
   transform: scale(1.05);
+}
+
+/* ✨ التوقيع (تحت الزر) */
+.signature {
+  margin-top: 20px;
+  font-size: 17px;
+  letter-spacing: 1px;
+  opacity: 0.65;
 }
 
 /* حركة الدخول */
@@ -123,14 +135,19 @@ body.fade-in {
 <div class="overlay"></div>
 
 <div class="final-box">
+
   <div class="final-quote">
-    الزمن يختلف…<br>
-    لكن أثرك ثابت ✨
+    الزمن يختلف لكن أثرك ثابت✨ <br>
   </div>
 
   <button class="home-btn" onclick="goHome()">
     العودة للبداية 🌌
   </button>
+
+  <div class="signature">
+    ATHAR CLUB | Eng Majd
+  </div>
+
 </div>
 
 <script>
@@ -151,3 +168,4 @@ function goHome() {
 
 </body>
 </html>
+
